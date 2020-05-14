@@ -23,8 +23,8 @@ import java.awt.event.KeyEvent;         //biblioteca responsavel pelas açoes da
 import java.awt.event.KeyListener;      //biblioteca responsavel pelas açoes dos botoes
 import javax.swing.*;                   //biblioteca responsavel pelor toda a parte grafica
 
-
-public class Servidor extends JFrame implements ActionListener, KeyListener{
+public class Servidor{
+/*public class Servidor extends JFrame implements ActionListener, KeyListener{
 //  declaraçao de todas as variaveis utilizadas
     private JEditorPane texto;
     private JTextField txtMsg;
@@ -224,6 +224,6 @@ public class Servidor extends JFrame implements ActionListener, KeyListener{
     public void keyReleased(KeyEvent e) {
 //      metodo implementado devio a interface
 //      porem nao utilizado no codigo
-    }
+    }*/
 }
 

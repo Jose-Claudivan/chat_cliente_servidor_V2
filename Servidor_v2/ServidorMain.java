@@ -21,10 +21,10 @@ public class ServidorMain {
 //  atraves do objeto servidor
     public static void main(String[] args) {
 
-      Servidor servidor = new Servidor();
+      ServidorModerador servidor = new ServidorModerador();
       try {
         servidor.iniciar();
-      } catch (IOException ex) {
+      } catch (Exception ex) {
          // Logger.getLogger(Ap1_Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }    
