@@ -56,7 +56,10 @@ public class ServidorMain {
         //cria tratador de cliente numa nova therad
         TrataCliente tc = new TrataCliente(cliente.getInputStream(),this);
         new Thread(tc).start();
-      }
+        for(int i = 0; i<clientes.size(); i++){
+          System.out.println(clientes.get(i));
+        }
+      }     
     }
     public void distribuiMensagem(String msg) {
       // envia msg para todo mundo
