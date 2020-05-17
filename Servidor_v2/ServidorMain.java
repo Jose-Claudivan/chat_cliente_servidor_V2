@@ -16,10 +16,16 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JEditorPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.io.*;
 import java.util.ArrayList;
+import servidor_v2.ManagerMessages;
 
 public class ServidorMain {
 //  metodo principal que faz a chamada do metodo iniciar()
@@ -36,20 +42,27 @@ public class ServidorMain {
     }
     private int porta;
     private List<PrintStream>clientes;
+    private List<Integer>idClientes;
 
     public ServidorMain(int porta) {
       this.porta = porta;
       this.clientes = new ArrayList<PrintStream>();
+      this.idClientes = new ArrayList<Integer>();
     }
     public void executa() throws IOException {
+      int controleAcesso = 0;
       ServerSocket servidor = new ServerSocket(this.porta);
       System.out.println("Porta aberta: -->" + porta);
 
       while(true){
         //aceita um cliente
         Socket cliente = servidor.accept();
-        System.out.println("Nova conexão com o cliente " +     
+        controleAcesso++;
+        if(controleAcesso !=0 ){
+          System.out.println("Nova conexão com o cliente " +     
                 cliente.getInetAddress().getHostAddress());
+          this.idClientes.add(controleAcesso);
+        }
         //adiciona saida do cliente a lista
         PrintStream ps = new PrintStream(cliente.getOutputStream());
         this.clientes.add(ps);
@@ -58,6 +71,7 @@ public class ServidorMain {
         new Thread(tc).start();
         for(int i = 0; i<clientes.size(); i++){
           System.out.println(clientes.get(i));
+          System.out.println("ID CLIENTES: -> " + idClientes.get(i));
         }
       }     
     }
