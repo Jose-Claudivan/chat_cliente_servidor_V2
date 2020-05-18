@@ -76,9 +76,13 @@ public class ServidorMain {
       }     
     }
     public void distribuiMensagem(String msg) {
+      int x = 0;
       // envia msg para todo mundo
       for (PrintStream cliente : this.clientes) {
+        if(idClientes.get(x)== 0){
           cliente.println(msg);
+        }
+        x++; 
       }
   }
 }
