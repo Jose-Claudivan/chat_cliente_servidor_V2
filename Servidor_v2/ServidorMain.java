@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.sound.sampled.SourceDataLine;
 import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -51,6 +52,7 @@ public class ServidorMain {
     }
     public void executa() throws IOException {
       int controleAcesso = 0;
+      String idAcesso;
       ServerSocket servidor = new ServerSocket(this.porta);
       System.out.println("Porta aberta: -->" + porta);
 
@@ -62,6 +64,9 @@ public class ServidorMain {
           System.out.println("Nova conexão com o cliente " +     
                 cliente.getInetAddress().getHostAddress());
           this.idClientes.add(controleAcesso);
+          System.out.println("TESTE RASTREAMENTO");
+          idAcesso =  cliente.getInetAddress().getHostAddress();
+          System.out.println("\n--> CONEXAO RASTREADA: " + idAcesso);
         }
         //adiciona saida do cliente a lista
         PrintStream ps = new PrintStream(cliente.getOutputStream());
