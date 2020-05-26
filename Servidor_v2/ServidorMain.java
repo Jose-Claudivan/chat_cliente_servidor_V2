@@ -13,20 +13,11 @@
 package servidor_v2;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.sound.sampled.SourceDataLine;
-import javax.swing.JEditorPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
-import java.net.Socket;
+import java.io.PrintStream;
 import java.net.ServerSocket;
-import java.io.*;
+import java.net.Socket;
 import java.util.ArrayList;
-import servidor_v2.ManagerMessages;
+import java.util.List;
 
 public class ServidorMain {
 //  metodo principal que faz a chamada do metodo iniciar()
@@ -43,16 +34,18 @@ public class ServidorMain {
     }
     private int porta;
     private List<PrintStream>clientes;
-    private List<Integer>idClientes;
+
+    String idAcesso;
 
     public ServidorMain(int porta) {
       this.porta = porta;
+      
       this.clientes = new ArrayList<PrintStream>();
-      this.idClientes = new ArrayList<Integer>();
+
     }
     public void executa() throws IOException {
       int controleAcesso = 0;
-      String idAcesso;
+      
       ServerSocket servidor = new ServerSocket(this.porta);
       System.out.println("Porta aberta: -->" + porta);
 
@@ -63,31 +56,33 @@ public class ServidorMain {
         if(controleAcesso !=0 ){
           System.out.println("Nova conexão com o cliente " +     
                 cliente.getInetAddress().getHostAddress());
-          this.idClientes.add(controleAcesso);
+
           System.out.println("TESTE RASTREAMENTO");
           idAcesso =  cliente.getInetAddress().getHostAddress();
           System.out.println("\n--> CONEXAO RASTREADA: " + idAcesso);
         }
+        
         //adiciona saida do cliente a lista
         PrintStream ps = new PrintStream(cliente.getOutputStream());
         this.clientes.add(ps);
         //cria tratador de cliente numa nova therad
         TrataCliente tc = new TrataCliente(cliente.getInputStream(),this);
         new Thread(tc).start();
+
         for(int i = 0; i<clientes.size(); i++){
           System.out.println(clientes.get(i));
-          System.out.println("ID CLIENTES: -> " + idClientes.get(i));
+
+          idAcesso = String.valueOf(clientes.get(i));
+          String[] parts = idAcesso.split("@");
+          String idDesejado = parts[1];
+          System.out.println("\n--> ID CLIENTE: " + idDesejado );        
         }
       }     
     }
     public void distribuiMensagem(String msg) {
-      int x = 0;
       // envia msg para todo mundo
       for (PrintStream cliente : this.clientes) {
-        if(idClientes.get(x)== 0){
           cliente.println(msg);
-        }
-        x++; 
       }
   }
 }
