@@ -16,6 +16,8 @@ import java.awt.Color;                  //biblioteca responsavel pela atribuiça
 import java.awt.Dimension;              //biblioteca responsavel pela definiçao do tamanho das telas
 import java.io.*;                       //biblioteca responsavel pelos metodos de entrad/saida de dados
 import java.net.*;                      //biblioteca responsavel pelos metodos do Socket
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;               //biblioteca responsavel pela esntrada via teclado
 import java.awt.event.ActionEvent;      //biblioteca responsavel pelas açoes dos botoes
 import java.awt.event.ActionListener;   //biblioteca responsavel pelas açoes dos botoes
@@ -24,6 +26,44 @@ import java.awt.event.KeyListener;      //biblioteca responsavel pelas açoes do
 import javax.swing.*;                   //biblioteca responsavel pelor toda a parte grafica
 
 public class Servidor{
+
+    private int porta;
+    private List<Socket> clientes;
+
+    public Servidor(int porta) {
+        this.porta = porta;
+        this.clientes = new ArrayList<>();
+    }
+
+    public void executa() throws IOException {
+        try(ServerSocket servidor = new ServerSocket(this.porta)){
+            System.out.println("\n--> PORTA ABERTA: " + porta);
+
+            while(true){
+                Socket cliente = servidor.accept();
+                System.out.println("\n--> CLIENTE CONECTADO: " + 
+                    cliente.getInetAddress().getHostAddress());
+
+                this.clientes.add(cliente);  
+                
+                TratadorMensagemCliente tc = new TratadorMensagemCliente(cliente,this);
+                new Thread(tc).start();
+            }
+        }
+    }
+
+    public void distribuiMensagem(Socket clienteEnviou, String msg) {
+        for (Socket cliente : this.clientes){
+            if(!cliente.equals(clienteEnviou)){
+                try{
+                    PrintStream ps = new PrintStream(cliente.getOutputStream());
+                    ps.println(msg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 /*public class Servidor extends JFrame implements ActionListener, KeyListener{
 //  declaraçao de todas as variaveis utilizadas
     private JEditorPane texto;

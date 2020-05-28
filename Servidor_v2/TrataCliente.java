@@ -3,7 +3,8 @@ package servidor_v2;
 import java.io.*;
 import java.util.Scanner;
 
-public class TrataCliente implements Runnable {
+public class TrataCliente{
+/*public class TrataCliente implements Runnable {
     private InputStream cliente;
     private ServidorMain servidor;
 
@@ -19,5 +20,5 @@ public class TrataCliente implements Runnable {
             servidor.distribuiMensagem(s.nextLine());
         }
         s.close();
-    }
+    }*/
 }
