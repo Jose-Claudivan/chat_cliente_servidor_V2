@@ -26,7 +26,7 @@ import java.awt.event.KeyListener;      //biblioteca responsavel pelas açoes do
 import javax.swing.*;                   //biblioteca responsavel pelor toda a parte grafica
 
 public class Servidor{
-
+    int x = 0;
     private int porta;
     private List<Socket> clientes;
 
@@ -45,7 +45,9 @@ public class Servidor{
                     cliente.getInetAddress().getHostAddress());
 
                 this.clientes.add(cliente);  
-                
+                System.out.println("\n--> TESTE RASTREAMENTO: " + clientes.get(x));
+                x++;
+
                 TratadorMensagemCliente tc = new TratadorMensagemCliente(cliente,this);
                 new Thread(tc).start();
             }
