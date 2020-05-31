@@ -25,14 +25,17 @@ import java.awt.event.KeyEvent;         //biblioteca responsavel pelas açoes da
 import java.awt.event.KeyListener;      //biblioteca responsavel pelas açoes dos botoes
 import javax.swing.*;                   //biblioteca responsavel pelor toda a parte grafica
 
-public class Servidor{
+public class Servidor {
     int x = 0;
     private int porta;
     private List<Socket> clientes;
+    private List<String>listaID;
+    private String idAcesso;
 
     public Servidor(int porta) {
         this.porta = porta;
         this.clientes = new ArrayList<>();
+        this.listaID = new ArrayList<String>();
     }
 
     public void executa() throws IOException {
@@ -45,11 +48,18 @@ public class Servidor{
                     cliente.getInetAddress().getHostAddress());
 
                 this.clientes.add(cliente);  
-                System.out.println("\n--> TESTE RASTREAMENTO: " + clientes.get(x));
-                x++;
-
+                       
+                idAcesso = String.valueOf(clientes.get(x));
+                String[] parts = idAcesso.split("=");
+                String idDesejado = parts[2];
+                parts = idDesejado.split(",");
+                idDesejado = parts[0];
+                this.listaID.add(x, idDesejado);
+                System.out.println("\n--> ID CLIENTE: " + idDesejado );
+               
                 TratadorMensagemCliente tc = new TratadorMensagemCliente(cliente,this);
                 new Thread(tc).start();
+                x++;
             }
         }
     }

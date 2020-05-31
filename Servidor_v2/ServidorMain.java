@@ -25,6 +25,5 @@ public class ServidorMain {
 //  atraves do objeto servidor
     public static void main(String[] args) throws IOException {
       new Servidor(12345).executa();
-    }
-    
-  }
+    }    
+}

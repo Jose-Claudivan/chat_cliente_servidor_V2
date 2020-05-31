@@ -12,13 +12,16 @@
 
 package cliente_v2;
 
+import notificacaoMensagem.Notificacao;
 
 public class ClienteMain {
 //  metodo principal que faz a chamada do metodo iniciar()
 //  atraves do objeto cliente
     public static void main(String[] args) {
         Cliente cliente = new Cliente();
+        Notificacao alerta = new Notificacao(cliente);
         cliente.iniciar();
+        //alerta.notify();
     }
     
 }
