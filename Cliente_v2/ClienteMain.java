@@ -12,13 +12,14 @@
 
 package cliente_v2;
 
+import design_pattern_observer.Subject;
+import servidor_v2.Servidor;
 
 public class ClienteMain {
 //  metodo principal que faz a chamada do metodo iniciar()
 //  atraves do objeto cliente
-    public static void main(String[] args) {
-        Cliente cliente = new Cliente();
-        cliente.iniciar();
+    public static void main(String[] args){
+        
     }
     
 }

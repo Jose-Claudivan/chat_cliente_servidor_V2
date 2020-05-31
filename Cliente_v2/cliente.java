@@ -11,17 +11,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 package cliente_v2;
 
-import java.awt.Color;                  //biblioteca responsavel pela atribuiçao de cores
-import java.awt.Dimension;              //biblioteca responsavel pela definiçao do tamanho das telas
-import java.io.*;                       //biblioteca responsavel pelos metodos de entrad/saida de dados
-import java.net.*;                      //biblioteca responsavel pelos metodos do Socket
-import java.awt.event.ActionEvent;      //biblioteca responsavel pelas açoes dos botoes
-import java.awt.event.ActionListener;   //biblioteca responsavel pelas açoes dos botoes
-import java.awt.event.KeyEvent;         //biblioteca responsavel pelas açoes das teclas
-import java.awt.event.KeyListener;      //biblioteca responsavel pelas açoes dos botoes
-import javax.swing.*;                   //biblioteca responsavel pelor toda a parte grafica
+import java.awt.Color; //biblioteca responsavel pela atribuiçao de cores
+import java.awt.Dimension; //biblioteca responsavel pela definiçao do tamanho das telas
+import java.io.*; //biblioteca responsavel pelos metodos de entrad/saida de dados
+import java.net.*; //biblioteca responsavel pelos metodos do Socket
+import java.awt.event.ActionEvent; //biblioteca responsavel pelas açoes dos botoes
+import java.awt.event.ActionListener; //biblioteca responsavel pelas açoes dos botoes
+import java.awt.event.KeyEvent; //biblioteca responsavel pelas açoes das teclas
+import java.awt.event.KeyListener; //biblioteca responsavel pelas açoes dos botoes
+import javax.swing.*; //biblioteca responsavel pelor toda a parte grafica
 
-public class Cliente extends JFrame implements ActionListener, KeyListener {
+import design_pattern_observer.Observer;
+import design_pattern_observer.Subject;
+
+
+public class Cliente extends JFrame implements ActionListener, KeyListener, Observer{
 //  declaraçao de todas as variaveis utilizadas
     private JEditorPane texto;
     private JTextField txtMsg;
@@ -40,6 +44,8 @@ public class Cliente extends JFrame implements ActionListener, KeyListener {
     private JTextField txtNome;
     private Socket conexao;
     ManagerMessages mm;
+    private int controlUpdate;
+    private Subject subject;
     
 // metodo responsavel pela parte de conexao do socket
     public void iniciar() {
@@ -61,9 +67,11 @@ public class Cliente extends JFrame implements ActionListener, KeyListener {
             System.out.println("IOException: " + e);
         }
     }
-    
+
 // construtor com toda a parte visual do programa
-    public Cliente(){
+    public Cliente(Subject subject){
+        this.subject = subject;
+        this.subject.addObserver(this);
 //      objeto responsavel por passas a mensagens formatada         
         this.mm = new ManagerMessages();
 //      tela com informaçoes sobre o cliente
@@ -119,6 +127,7 @@ public class Cliente extends JFrame implements ActionListener, KeyListener {
     public void conectar() throws IOException {
 //      passa as informações necessarias para socket para realizar a conexao
         socket = new Socket(txtIP.getText(), Integer.parseInt(txtPorta.getText()));
+        controlUpdate = 1;
         ou = socket.getOutputStream();
         ouw = new OutputStreamWriter(ou);
         bfw = new BufferedWriter(ouw);
@@ -250,6 +259,11 @@ public class Cliente extends JFrame implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
 //      metodo implementado devio a interface
 //      porem nao utilizado no codigo
+    }
+
+    @Override
+    public void update(Object obj) {
+        System.out.println("NOTIFICADO PELO SERVIDOR");
     }
     
     
