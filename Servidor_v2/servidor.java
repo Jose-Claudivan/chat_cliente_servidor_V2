@@ -12,7 +12,6 @@
 
 package servidor_v2;
 
-import java.awt.Color;                  //biblioteca responsavel pela atribuiçao de cores
 import java.awt.Dimension;              //biblioteca responsavel pela definiçao do tamanho das telas
 import java.io.*;                       //biblioteca responsavel pelos metodos de entrad/saida de dados
 import java.net.*;                      //biblioteca responsavel pelos metodos do Socket
